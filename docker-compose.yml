@@ -1,0 +1,48 @@
+version: "3.9"
+
+volumes:
+  mongodb:
+
+services: 
+  db:
+    container_name: db
+    image: mongo:6.0.2-focal
+    restart: always
+    networks:
+      - blog_docker_compose
+    volumes:
+      - "mongodb:/data/db"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+    
+    
+  flask_app:
+    container_name: app
+    image: blogapp:latest
+    networks:
+      - jenk_gitlab_net
+      - blog_docker_compose
+    environment:
+      MONGODB_USER: ${MONGODB_USER}
+      MONGODB_PASSWORD: ${MONGODB_PASSWORD}
+      DATABASE_URL: ${DATABASE_URL}
+    
+  rev_prox:
+    image: nginx-new:latest
+    container_name: reverse_proxy
+    networks:
+      - blog_docker_compose
+    ports:
+      - 80:80
+    restart: always
+    # volumes:
+    #   - "${CONF_FILE_LOCATION}:/etc/nginx/conf.d/default.conf"
+    #   - "${VOLUME_STATIC_FILES}:/usr/share/nginx/html/"
+
+networks:
+  jenk_gitlab_net:
+    name: jenk_gitlab_net
+    external: true
+  blog_docker_compose:
+    name: blog_docker_compose   
