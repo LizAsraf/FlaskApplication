@@ -49,6 +49,7 @@ pipeline {
                     timeout(5) {
                         sh "bash e2e-test.sh"
                     }                                   
+                    sh "docker compose down"
                 }
             }
         }
