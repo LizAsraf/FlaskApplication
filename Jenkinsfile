@@ -77,10 +77,10 @@ pipeline {
                     echo "login into ecr..."
                     sh "aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 644435390668.dkr.ecr.us-west-2.amazonaws.com"
                     echo "taggging image"
-                    sh "docker tag app:1.1-SNAPSHOT 644435390668.dkr.ecr.us-west-2.amazonaws.com/blogapp:${RELEASE_VERSION}"
+                    sh "docker tag blogapp:latest 644435390668.dkr.ecr.us-west-2.amazonaws.com/blogapp:${newtag}"
                     echo "pushing..."
-                    sh "docker push 644435390668.dkr.ecr.us-west-2.amazonaws.com\\/blogapp:${RELEASE_VERSION}"
-                    sh "git tag -a v${RELEASE_VERSION} -m 'my new version ${RELEASE_VERSION}'"                    
+                    sh "docker push 644435390668.dkr.ecr.us-west-2.amazonaws.com/blogapp:${newtag}"
+                    sh "git tag -a v${newtag} -m 'my new version ${newtag}'"                    
                     sh "git push --tag"
                 }
             }
