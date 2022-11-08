@@ -15,7 +15,7 @@ pipeline {
                 script{
                     deleteDir()
                     checkout([$class: 'GitSCM', branches: [[name: '*/master']], \
-                    extensions: [], userRemoteConfigs: [[credentialsId: 'gitlab-jenkins-8-11', url: 'git@gitlab.com:liz.asraf/portfolio-app.git']]])
+                    extensions: [], userRemoteConfigs: [[credentialsId: 'gitlab-jenkins-8-11', url: 'git@gitlab.com:liz.asraf/blogapp_new.git']]])
                     sh 'git fetch --all --tags'
                 } 
             }
@@ -81,6 +81,7 @@ pipeline {
                     sh "docker push 644435390668.dkr.ecr.us-west-2.amazonaws.com\\/blogapp:${RELEASE_VERSION}"
                     sh "git tag -a v${RELEASE_VERSION} -m 'my new version ${RELEASE_VERSION}'"                    
                     sh "git push --tag"
+                }
             }
         }
 
