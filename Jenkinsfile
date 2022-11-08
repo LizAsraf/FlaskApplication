@@ -8,14 +8,13 @@ pipeline {
     }
     environment {
         RELEASE_VERSION = ''
-        // SNAP_VERSION = ''
     }
     stages {        
         stage ('checkout'){
             steps{
                 script{
                     deleteDir()
-                    checkout([$class: 'GitSCM', branches: [[name: '*/main']], \
+                    checkout([$class: 'GitSCM', branches: [[name: '*/master']], \
                     extensions: [], userRemoteConfigs: [[credentialsId: 'gitlab-jenkins-8-11', url: 'git@gitlab.com:liz.asraf/portfolio-app.git']]])
                     sh 'git fetch --all --tags'
                 } 
@@ -25,11 +24,13 @@ pipeline {
         stage ('build and unit-test') {           
             steps {
                 script{
-                    sh """
-                        docker build --tag blogapp:latest --file Dockerfile .
-                        docker build --tag nginx-new:latest --file Dockerfile-nginx .
-                        docker compose up -d
-                    """
+                    timeout(5) {
+                        sh """
+                            docker build --tag blogapp:latest --file Dockerfile .
+                            docker build --tag nginx-new:latest --file Dockerfile-nginx .
+                            docker compose up -d
+                        """
+                    }
                     timeout(1) {
                         sh "bash unit-test.sh" 
                     }
@@ -40,7 +41,7 @@ pipeline {
 
         stage ('e2e test') {
             when {anyOf{
-                    branch "main" ; branch pattern: "feature/.*", comparator: "REGEXP"
+                    branch "master" ; branch pattern: "feature/.*", comparator: "REGEXP"
                 }
             }            
             steps {
@@ -53,9 +54,9 @@ pipeline {
         }
 
 
-        stage ('calculate tag') {
+        stage ('tag and publish') {
             when {
-                branch "main"
+                branch "master"
             }
             steps {
                script{
@@ -72,42 +73,26 @@ pipeline {
                         newtag = sh (script:"bash version_calculator.sh ${L_TAG}", returnStdout: true).trim()
                         echo "the new tag is $newtag"   
                     }
-                    sh "git tag -a v${newtag} -m 'my new version ${newtag}'"
-                        sh "git push --tag"
-                }
+                    echo "login into ecr..."
+                    sh "aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 644435390668.dkr.ecr.us-west-2.amazonaws.com"
+                    echo "taggging image"
+                    sh "docker tag app:1.1-SNAPSHOT 644435390668.dkr.ecr.us-west-2.amazonaws.com\\/blogapp:${RELEASE_VERSION}"
+                    echo "pushing..."
+                    sh "docker push 644435390668.dkr.ecr.us-west-2.amazonaws.com\\/blogapp:${RELEASE_VERSION}"
+                    sh "git tag -a v${RELEASE_VERSION} -m 'my new version ${RELEASE_VERSION}'"                    
+                    sh "git push --tag"
             }
         }
 
         // stage ('publish') {
         //     when {anyOf{
-        //             branch "main" ; branch pattern: "feature/.*", comparator: "REGEXP"
+        //             branch "master" ; branch pattern: "feature/.*", comparator: "REGEXP"
         //         }
         //     }
         //     steps {
         //         script{
-
-        //             echo "login into ecr"
-        //             sh "aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 644435390668.dkr.ecr.us-west-2.amazonaws.com"
-        //             if ( BRANCH_NAME != "main" ){ 
-        //                 echo "taggging image"
-        //                 sh "docker tag app:1.1-SNAPSHOT 644435390668.dkr.ecr.us-west-2.amazonaws.com\\/tedsearch-liz:${RELEASE_VERSION}"
-        //                 echo "pushing"
-        //                 sh "docker push 644435390668.dkr.ecr.us-west-2.amazonaws.com/tedsearch-liz:${RELEASE_VERSION}"
-        //                 sh "git tag -a v${RELEASE_VERSION} -m 'my new version ${RELEASE_VERSION}'"
-        //                 withCredentials([gitUsernamePassword(credentialsId: 'ba51f8cb-c38f-46a1-bdbe-333379662541')]) {
-        //                     sh "git push --tag"
-        //                 }
         //                 sh """cd app
         //                     sed -i 's/image: app:1.1-SNAPSHOT/image: 644435390668.dkr.ecr.us-west-2.amazonaws.com\\/tedsearch-liz:${RELEASE_VERSION}/g' docker-compose.yml"""           
-        //             }
-        //             else{
-        //                 echo "taggging image"
-        //                 sh "docker tag app:1.1-SNAPSHOT 644435390668.dkr.ecr.us-west-2.amazonaws.com\\/tedsearch-liz:${RELEASE_VERSION}-test"
-        //                 echo "pushing"
-        //                 sh "docker push 644435390668.dkr.ecr.us-west-2.amazonaws.com/tedsearch-liz:${RELEASE_VERSION}-test"
-        //                 sh """cd app
-        //                     sed -i 's/image: app:1.1-SNAPSHOT/image: 644435390668.dkr.ecr.us-west-2.amazonaws.com\\/tedsearch-liz:${RELEASE_VERSION}-test/g' docker-compose.yml"""           
-        //             }
         //         }
         //     }
         // }
@@ -119,12 +104,12 @@ pipeline {
         //                 env.START_DATE = sh (script: "echo \$(date +%s)", returnStdout: true).trim()
         //                 print env.START_DATE
         //                 sh "terraform init"    
-        //                 if ( BRANCH_NAME != "main" ){ 
+        //                 if ( BRANCH_NAME != "master" ){ 
         //                     sh "terraform workspace new test-${START_DATE}"
         //                     sh 'terraform apply -auto-approve'
         //                 }
         //                 else{
-        //                     sh "terraform workspace new maintest-${START_DATE}"
+        //                     sh "terraform workspace new mastertest-${START_DATE}"
         //                     sh 'terraform apply -auto-approve'
         //                 }
         //                 instance_ip = sh (script: """terraform output instance_public_ip | sed 's/\\[//g' | sed 's/\\(],\\)//g' | sed 's/\\]//g' | sed 's/\\"//g'""", returnStdout: true).trim()
@@ -135,7 +120,7 @@ pipeline {
         //                 while ( i <= countint){
         //                     ip = sh(script: """echo "${instance_ip}" | head -n \$((3+$i)) | tail -n 1 | cut -d ',' -f1 """, returnStdout: true).trim()
         //                     echo ip
-        //                     sh "zip all_data.zip app/docker-compose.yml app/.env e2e_test.sh app/default.conf -r app/src/main/resources script.sh"
+        //                     sh "zip all_data.zip app/docker-compose.yml app/.env e2e_test.sh app/default.conf -r app/src/master/resources script.sh"
         //                     sh """scp -o StrictHostKeyChecking=no -i "~/.aws/lizasraf.pem" all_data.zip  ubuntu@$ip:/home/ubuntu"""
         //                     sh """ssh -o StrictHostKeyChecking=no -i "~/.aws/lizasraf.pem" ubuntu@$ip "sudo apt install zip -y; unzip all_data.zip; ./script.sh;" """ 
         //                     sh """ssh -o StrictHostKeyChecking=no -i "~/.aws/lizasraf.pem" ubuntu@$ip "aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 644435390668.dkr.ecr.us-west-2.amazonaws.com; docker compose -f app/docker-compose.yml up -d;" """
@@ -144,7 +129,7 @@ pipeline {
         //                     }
         //                     i++
         //                 }
-        //                 if ( BRANCH_NAME == "main" ){ 
+        //                 if ( BRANCH_NAME == "master" ){ 
         //                     sh """sed -i 's/enviroment = "Dev"/enviroment = "Prod"/g' terraform.tfvars"""
         //                     sh "aws ecr get-login-password --region us-west-2 | docker login --username AWS --password-stdin 644435390668.dkr.ecr.us-west-2.amazonaws.com"                            
         //                     echo "taggging image"
@@ -169,11 +154,11 @@ pipeline {
     post {
         always {
             script{
-                // if ( BRANCH_NAME == "main" ){ 
-                // sh "terraform workspace select maintest-${START_DATE}"
+                // if ( BRANCH_NAME == "master" ){ 
+                // sh "terraform workspace select mastertest-${START_DATE}"
                 // sh 'terraform destroy -auto-approve'
                 // sh "terraform workspace select default"
-                // sh "terraform workspace delete maintest-${START_DATE}"
+                // sh "terraform workspace delete mastertest-${START_DATE}"
                 // }
                 sh 'git clean -if'
                 cleanWs()
