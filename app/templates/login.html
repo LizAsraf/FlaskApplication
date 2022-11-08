@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Sign In</h1>
+    <form action="" method="post" novalidate>
+<!-- The novalidate attribute is used to tell the web browser to not apply validation to the fields in this form -->
+        {{ form.hidden_tag() }}
+<!-- The form.hidden_tag() template argument generates a hidden field that includes a token that is used to protect the form against CSRF attacks -->
+        <p>
+            {{ form.firstname.label }}<br>
+            {{ form.firstname(size=32) }}<br>
+            {% for error in form.firstname.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.lastname.label }}<br>
+            {{ form.lastname(size=32) }}<br>
+            {% for error in form.lastname.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>        
+        <p>
+            {{ form.username.label }}<br>
+            {{ form.username(size=32) }}<br>
+            {% for error in form.username.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}<br>
+            {% for error in form.password.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>{{ form.remember_me() }} {{ form.remember_me.label }}</p>
+        <p>{{ form.submit() }}</p>
+    </form>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Posts</h1>
+    <form action="" method="post" novalidate>
+<!-- The novalidate attribute is used to tell the web browser to not apply validation to the fields in this form -->
+        {{ form.hidden_tag() }}
+<!-- The form.hidden_tag() template argument generates a hidden field that includes a token that is used to protect the form against CSRF attacks -->
+        <p>
+            {{ form.body.label }}<br>
+            {{ form.body(size=70) }}<br>
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+    <hr>
+    {% if posts %} 
+        {% for post in posts %}
+            <div class="post">
+                <p>{{ post.body}}</i></p>
+            </div>
+        {% endfor %}
+    {% endif %}
+    </div>
+{% endblock %}
+
+<!--{{ post.author.username }} <i>-->

@@ -1,0 +1,146 @@
+DEBUG:root:This message should go to the log file
+INFO:root:So should this
+WARNING:root:And this, too
+ERROR:root:And non-ASCII stuff, too, like Øresund and Malmö
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 110-944-190
+DEBUG:root:this is a debug massage
+INFO:root:App started
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+DEBUG:root:this is a debug massage
+INFO:root:App started
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 110-944-190
+INFO:werkzeug:127.0.0.1 - - [07/Nov/2022 21:56:06] "[33mGET /index/ HTTP/1.1[0m" 404 -
+INFO:root:first enterence need to loggin into the app
+INFO:werkzeug:127.0.0.1 - - [07/Nov/2022 21:56:08] "GET /index HTTP/1.1" 200 -
+INFO:root:first enterence need to loggin into the app
+INFO:werkzeug:127.0.0.1 - - [07/Nov/2022 21:56:15] "POST /index HTTP/1.1" 200 -
+INFO:root:first enterence need to loggin into the app
+INFO:werkzeug:127.0.0.1 - - [07/Nov/2022 21:56:19] "[32mPOST /index HTTP/1.1[0m" 302 -
+INFO:root:Home page
+INFO:werkzeug:127.0.0.1 - - [07/Nov/2022 21:56:19] "GET /index/fgh HTTP/1.1" 200 -
+INFO:root:add a new post
+INFO:werkzeug:127.0.0.1 - - [07/Nov/2022 21:56:40] "GET /posts HTTP/1.1" 200 -
+INFO:root:add a new post
+INFO:werkzeug:127.0.0.1 - - [07/Nov/2022 21:56:44] "POST /posts HTTP/1.1" 200 -
+INFO:root:posts edit and delete page
+INFO:werkzeug:127.0.0.1 - - [07/Nov/2022 21:56:47] "GET /test HTTP/1.1" 200 -
+INFO:root:posts edit and delete page
+INFO:werkzeug:127.0.0.1 - - [07/Nov/2022 21:56:54] "[32mGET /test?csrf_token=IjcwZmI3ZTg5Njk3YThjOGNhY2JiYWI5NWFhMjMxY2QyYTlhNWRjNGIi.Y2li_w.zI0gEAc8i7mMe9bwJqkvK1bsbvA&body=test&submitedit=edit&textedit=edit+again HTTP/1.1[0m" 302 -
+INFO:root:updating post
+INFO:werkzeug:127.0.0.1 - - [07/Nov/2022 21:56:54] "[32mGET /update/test/edit%20again HTTP/1.1[0m" 302 -
+INFO:root:posts edit and delete page
+INFO:werkzeug:127.0.0.1 - - [07/Nov/2022 21:56:54] "GET /test HTTP/1.1" 200 -
+INFO:root:posts edit and delete page
+INFO:werkzeug:127.0.0.1 - - [07/Nov/2022 21:57:41] "[32mGET /test?csrf_token=IjcwZmI3ZTg5Njk3YThjOGNhY2JiYWI5NWFhMjMxY2QyYTlhNWRjNGIi.Y2ljBg.PydElJAvwHJ29SALYzFfd3xsWgQ&body=edit+again&textedit=&delete=delete HTTP/1.1[0m" 302 -
+INFO:root:deleting post
+INFO:werkzeug:127.0.0.1 - - [07/Nov/2022 21:57:41] "[32mGET /delete/edit%20again HTTP/1.1[0m" 302 -
+INFO:root:posts edit and delete page
+INFO:werkzeug:127.0.0.1 - - [07/Nov/2022 21:57:41] "GET /test HTTP/1.1" 200 -
+DEBUG:root:this is a debug massage
+INFO:root:App started
+DEBUG:root:this is a debug massage
+INFO:root:App started
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug: * Restarting with stat
+DEBUG:root:this is a debug massage
+INFO:root:App started
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 110-944-190
+INFO:root:posts edit and delete page
+INFO:werkzeug:127.0.0.1 - - [07/Nov/2022 23:37:27] "GET /test HTTP/1.1" 200 -
+INFO:root:add a new post
+INFO:werkzeug:127.0.0.1 - - [07/Nov/2022 23:37:37] "GET /posts HTTP/1.1" 200 -
+INFO:root:add a new post
+INFO:werkzeug:127.0.0.1 - - [07/Nov/2022 23:37:41] "POST /posts HTTP/1.1" 200 -
+INFO:root:add a new post
+INFO:werkzeug:127.0.0.1 - - [07/Nov/2022 23:37:55] "POST /posts HTTP/1.1" 200 -
+INFO:root:add a new post
+INFO:werkzeug:127.0.0.1 - - [07/Nov/2022 23:37:59] "POST /posts HTTP/1.1" 200 -
+DEBUG:root:this is a debug massage
+INFO:root:App started
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:root:first enterence need to loggin into the app
+INFO:werkzeug:127.0.0.1 - - [08/Nov/2022 02:27:19] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [08/Nov/2022 02:27:19] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+INFO:root:add a new post
+ERROR:app:Exception on /posts [GET]
+Traceback (most recent call last):
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/flask/app.py", line 2525, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/flask/app.py", line 1822, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/flask/app.py", line 1820, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/flask/app.py", line 1796, in dispatch_request
+    return self.ensure_sync(self.view_functions[rule.endpoint])(**view_args)
+  File "/home/liz/Studies/portfolio/blogapp/microblog/app/routes.py", line 72, in posts
+    return render_template('posts.html', title='Posts', form=form, posts=Posts.find())
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/flask/templating.py", line 147, in render_template
+    return _render(app, template, context)
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/flask/templating.py", line 130, in _render
+    rv = template.render(context)
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/jinja2/environment.py", line 1301, in render
+    self.environment.handle_exception()
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/jinja2/environment.py", line 936, in handle_exception
+    raise rewrite_traceback_stack(source=source)
+  File "/home/liz/Studies/portfolio/blogapp/microblog/app/templates/posts.html", line 1, in top-level template code
+    {% extends "base.html" %}
+  File "/home/liz/Studies/portfolio/blogapp/microblog/app/templates/base.html", line 32, in top-level template code
+    {% block content %}{% endblock %}
+  File "/home/liz/Studies/portfolio/blogapp/microblog/app/templates/posts.html", line 17, in block 'content'
+    {% for post in posts %}
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/pymongo/cursor.py", line 1248, in next
+    if len(self.__data) or self._refresh():
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/pymongo/cursor.py", line 1165, in _refresh
+    self.__send_message(q)
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/pymongo/cursor.py", line 1052, in __send_message
+    response = client._run_operation(
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/pymongo/_csot.py", line 105, in csot_wrapper
+    return func(self, *args, **kwargs)
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/pymongo/mongo_client.py", line 1330, in _run_operation
+    return self._retryable_read(
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/pymongo/_csot.py", line 105, in csot_wrapper
+    return func(self, *args, **kwargs)
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/pymongo/mongo_client.py", line 1442, in _retryable_read
+    with self._socket_from_server(read_pref, server, session) as (sock_info, read_pref):
+  File "/usr/lib/python3.10/contextlib.py", line 135, in __enter__
+    return next(self.gen)
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/pymongo/mongo_client.py", line 1282, in _socket_from_server
+    with self._get_socket(server, session) as sock_info:
+  File "/usr/lib/python3.10/contextlib.py", line 135, in __enter__
+    return next(self.gen)
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/pymongo/mongo_client.py", line 1217, in _get_socket
+    with server.get_socket(handler=err_handler) as sock_info:
+  File "/usr/lib/python3.10/contextlib.py", line 135, in __enter__
+    return next(self.gen)
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/pymongo/pool.py", line 1407, in get_socket
+    sock_info = self._get_socket(handler=handler)
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/pymongo/pool.py", line 1520, in _get_socket
+    sock_info = self.connect(handler=handler)
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/pymongo/pool.py", line 1378, in connect
+    sock_info.authenticate()
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/pymongo/pool.py", line 870, in authenticate
+    auth.authenticate(creds, self)
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/pymongo/auth.py", line 549, in authenticate
+    auth_func(credentials, sock_info)
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/pymongo/auth.py", line 475, in _authenticate_default
+    return _authenticate_scram(credentials, sock_info, "SCRAM-SHA-1")
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/pymongo/auth.py", line 201, in _authenticate_scram
+    res = sock_info.command(source, cmd)
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/pymongo/pool.py", line 767, in command
+    return command(
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/pymongo/network.py", line 166, in command
+    helpers._check_command_response(
+  File "/home/liz/Studies/portfolio/blogapp/microblog/blogappenv/lib/python3.10/site-packages/pymongo/helpers.py", line 181, in _check_command_response
+    raise OperationFailure(errmsg, code, response, max_wire_version)
+pymongo.errors.OperationFailure: Authentication failed., full error: {'ok': 0.0, 'errmsg': 'Authentication failed.', 'code': 18, 'codeName': 'AuthenticationFailed'}
+INFO:werkzeug:127.0.0.1 - - [08/Nov/2022 02:27:25] "[35m[1mGET /posts HTTP/1.1[0m" 500 -
