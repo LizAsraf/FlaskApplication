@@ -86,11 +86,10 @@ pipeline {
                 }
             }
         }
-// need to change the image name in the app helm charts with the argo cd repository {{with credentials}}
-//need also to change the version in the helm chart
+        // need to change the image name in the app helm charts with the argo cd repository {{with credentials}}
+        //need also to change the version in the helm chart
         stage ('Deploy') {
             when { branch "master" }
-            }
             steps {
                 script{
                     checkout([$class: 'GitSCM', branches: [[name: '*/master']], \
