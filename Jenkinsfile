@@ -95,8 +95,10 @@ pipeline {
                     checkout([$class: 'GitSCM', branches: [[name: '*/master']], \
                     extensions: [], userRemoteConfigs: [[credentialsId: 'gitlab-jenkins-8-11', url: 'git@gitlab.com:liz.asraf/argo-cd.git']]])                        
                     sh """cd blogapp
-                    sed -i 's/version: */version: ${RELEASE_VERSION}/g' Chart.yaml
-                    sed -i 's/tag: */tag: "${RELEASE_VERSION}"/g' values.yaml
+                    sed -i '11s/version: .*/version: ${RELEASE_VERSION}/g' Chart.yaml
+                    sed -i '11s/tag: .*/tag: "${RELEASE_VERSION}"/g' values.yaml
+                    git commit -am "version ${RELEASE_VERSION} updated"
+                    git push origin HEAD:master
                     """           
                 }
             }
