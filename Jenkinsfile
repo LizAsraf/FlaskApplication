@@ -82,22 +82,26 @@ pipeline {
                     sh "docker push 644435390668.dkr.ecr.us-west-2.amazonaws.com/blogapp:${newtag}"
                     sh "git tag -a v${newtag} -m 'my new version ${newtag}'"                    
                     sh "git push --tag"
+                    RELEASE_VERSION = newtag
                 }
             }
         }
 // need to change the image name in the app helm charts with the argo cd repository {{with credentials}}
-        // stage ('Deploy') {
-        //     when {anyOf{
-        //             branch "master" ; branch pattern: "feature/.*", comparator: "REGEXP"
-        //         }
-        //     }
-        //     steps {
-        //         script{
-        //                 sh """cd app
-        //                     sed -i 's/image: app:1.1-SNAPSHOT/image: 644435390668.dkr.ecr.us-west-2.amazonaws.com\\/tedsearch-liz:${RELEASE_VERSION}/g' docker-compose.yml"""           
-        //         }
-        //     }
-        // }
+//need also to change the version in the helm chart
+        stage ('Deploy') {
+            when { branch "master" }
+            }
+            steps {
+                script{
+                    checkout([$class: 'GitSCM', branches: [[name: '*/master']], \
+                    extensions: [], userRemoteConfigs: [[credentialsId: 'gitlab-jenkins-8-11', url: 'git@gitlab.com:liz.asraf/argo-cd.git']]])                        
+                    sh """cd blogapp
+                    sed -i 's/version: */version: ${RELEASE_VERSION}/g' Chart.yaml
+                    sed -i 's/tag: */tag: "${RELEASE_VERSION}"/g' values.yaml
+                    """           
+                }
+            }
+        }
     }
     post {
         always {
