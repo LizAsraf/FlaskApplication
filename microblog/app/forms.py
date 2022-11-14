@@ -18,7 +18,7 @@ class PostsForm(FlaskForm):
     body = TextAreaField('Body', validators=[InputRequired()])
     submit = SubmitField('Post')
 
-class TestForm(FlaskForm):
+class EditDeleteForm(FlaskForm):
     body = TextAreaField('Body', validators=[InputRequired()])
     edit = SubmitField('Edit')
     delete = SubmitField('Delete')
