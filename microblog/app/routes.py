@@ -114,7 +114,7 @@ def login_api(firstname, lastname, username, password):
 ################################welcom page#############################################
 ########################################################################################
 
-@app.route('/index/<user>', methods=('GET'))
+@app.route('/index/<user>', methods=['GET'])
 def index(user):
     try:
         logger.info('logged in: welcome page')
@@ -130,7 +130,7 @@ def index(user):
 #################################posts page#############################################
 ########################################################################################
 
-@app.route('/posts', methods=('GET', 'POST'))
+@app.route('/posts', methods=['GET', 'POST'])
 def posts():
     try:
         if request.method == 'POST':
@@ -151,7 +151,7 @@ def posts():
 
 #################################posts api#############################################
 
-@app.route('/api/posts/<body>', methods=('GET', 'POST'))
+@app.route('/api/posts/<body>', methods=['GET', 'POST'])
 def posts_api(body):
     try:
         if request.method == 'POST':
@@ -171,7 +171,7 @@ def posts_api(body):
 #################################edit/delete posts page#################################
 ########################################################################################
 
-@app.route('/delete_edit', methods=('GET', 'POST'))
+@app.route('/delete_edit', methods=['GET', 'POST'])
 def delete_edit():
     try:
         if request.method == 'POST':
@@ -198,8 +198,8 @@ def delete_edit():
 ########################################################################################
 #################################delete posts page######################################
 ########################################################################################
-@app.route('/api/delete/<name>', methods=('DELETE'))
-@app.route('/delete/<name>', methods=('GET' , 'DELETE'))
+@app.route('/api/delete/<name>', methods=['DELETE'])
+@app.route('/delete/<name>', methods=['GET' , 'DELETE'])
 def delete(name):
     try:
         if request.method == 'DELETE':
@@ -220,7 +220,7 @@ def delete(name):
 #################################edit posts page########################################
 ########################################################################################
 @app.route('/api/update/<name>/<replacment>', methods=['PUT'])
-@app.route('/update/<name>/<replacment>', methods=('GET' , 'PUT'))
+@app.route('/update/<name>/<replacment>', methods=['GET' , 'PUT'])
 def update(name,replacment):
     try:
         if request.method == 'PUT':
