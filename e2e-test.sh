@@ -12,6 +12,8 @@ done
 resp=$(curl -X PUT http://localhost:5000/ -Is | grep -c "HTTP/1.1 200")
 if [[ resp -eq 1 ]]; then
 	echo "pass logginpage from / with POST"
+else
+	exit 1
 fi
 ##test
 
