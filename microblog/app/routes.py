@@ -93,7 +93,7 @@ def login():
 #################################login page api########################################
 
 @app.route('/api/login/<firstname>-<lastname>-<username>-<password>', methods=['GET', 'POST'])
-def login(firstname, lastname, username, password):
+def login_api(firstname, lastname, username, password):
     try:
         if request.method == 'POST':
             logger.info('Start: login into blog')
@@ -152,7 +152,7 @@ def posts():
 #################################posts api#############################################
 
 @app.route('/api/posts/<body>', methods=('GET', 'POST'))
-def posts(body):
+def posts_api(body):
     try:
         if request.method == 'POST':
             logger.info('posts: new posts page')
