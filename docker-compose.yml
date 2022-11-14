@@ -27,7 +27,7 @@ services:
       MONGODB_USER: ${MONGODB_USER}
       MONGODB_PASSWORD: ${MONGODB_PASSWORD}
       DATABASE_URL: ${DATABASE_URL}
-    
+  
   rev_prox:
     image: nginx-new:latest
     container_name: reverse_proxy

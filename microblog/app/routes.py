@@ -41,9 +41,9 @@ logger.addHandler(console_handler)
 @app.route('/index', methods=['GET', 'POST'])
 def need_to_login():
     try:
+        form = LoginForm()
         if request.method == 'POST':
             logger.info('Start: login into blog')
-            form = LoginForm()
             if form.validate_on_submit():
                 flash('Login requested for firstname {}, lastname {}, user {}'.format(
                     form.firstname.data, form.lastname.data, form.username.data))
@@ -71,9 +71,9 @@ def need_to_login():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     try:
+        form = LoginForm()
         if request.method == 'POST':
             logger.info('Start: login into blog')
-            form = LoginForm()
             if form.validate_on_submit():
                 flash('Login requested for firstname {}, lastname {}, user {}'.format(
                     form.firstname.data, form.lastname.data, form.username.data))
@@ -92,17 +92,14 @@ def login():
 
 #################################login page api########################################
 
-@app.route('/api/login/<firstname>-<lastname>-<username>-<password>', methods=['GET', 'POST'])
+@app.route('/api/login/<firstname>-<lastname>-<username>-<password>', methods=['POST'])
 def login_api(firstname, lastname, username, password):
     try:
-        if request.method == 'POST':
-            logger.info('Start: login into blog')
-            Users.insert_one({'firstname': firstname, 'lastname': lastname, 'username': username, 'password': password})
-            print('new user has been registerd') 
-            return redirect(url_for('index', user=username))
-        else:
-            Users.find(username)
-            return redirect(url_for('index', user=username))
+        logger.info('Start: login into blog')
+        Users.insert_one({'firstname': firstname, 'lastname': lastname, 'username': username, 'password': password})
+        print('new user has been registerd') 
+        return redirect(url_for('index', user=username))
+
     except Exception as error:
         logger.error("Oh no! you did not logged in, the error is: " + str(error))
 
@@ -133,9 +130,9 @@ def index(user):
 @app.route('/posts', methods=['GET', 'POST'])
 def posts():
     try:
+        form = PostsForm()
         if request.method == 'POST':
             logger.info('posts: new posts page')
-            form = PostsForm()
             if form.validate_on_submit():
                 flash('your post is {}'.format(
                     form.body.data))
@@ -154,15 +151,19 @@ def posts():
 @app.route('/api/posts/<body>', methods=['GET', 'POST'])
 def posts_api(body):
     try:
+        form = PostsForm()
         if request.method == 'POST':
             logger.info('posts: new posts page')
-            Posts.insert_one({'body': body})
-            print('new post has been added')
-            return render_template('posts.html', title='Posts', posts=Posts.find())
+            if form.validate_on_submit():
+                Posts.insert_one({'body': body})
+                print('new post has been added')
+                return render_template('posts.html', title='Posts', form=form, posts=Posts.find())
+            return render_template('posts.html', title='Posts', form=form, posts=Posts.find())
         else:
-            return render_template('posts.html', title='Posts', posts=Posts.find(body))
+            return render_template('posts.html', title='Posts', form=form, posts=Posts.find())
     except Exception as error:
         logger.error("Oh no! somthing went worng with the posts page, the error is: " + str(error))
+
 ########################################################################################
 ########################################################################################
 ########################################################################################
@@ -174,20 +175,20 @@ def posts_api(body):
 @app.route('/delete_edit', methods=['GET', 'POST'])
 def delete_edit():
     try:
-        if request.method == 'POST':
-            logger.info('delete/edit: posts page')
-            form = EditDeleteForm()
-            print(request.args.get('body'))
-            if "delete" in request.args: 
-                print('You have requested to delete some posts')
-                return redirect(url_for('delete', name=request.args.get('body')))
-            elif "submitedit" in request.args: 
-                print('You have requested to edit some posts')
-                return redirect(url_for('update', name=request.args.get('body'), replacment=request.args.get('textedit')))
-            else:
-                return render_template('delete_edit.html', title='Delete or Edit', form=form, posts=Posts.find())
+        form = EditDeleteForm()
+        # if request.method == 'POST':
+        logger.info('delete/edit: posts page')
+        print(request.args.get('body'))
+        if "delete" in request.args: 
+            print('You have requested to delete some posts')
+            return redirect(url_for('delete', name=request.args.get('body')))
+        elif "submitedit" in request.args: 
+            print('You have requested to edit some posts')
+            return redirect(url_for('update', name=request.args.get('body'), replacment=request.args.get('textedit')))
         else:
             return render_template('delete_edit.html', title='Delete or Edit', form=form, posts=Posts.find())
+        # else:
+        #     return render_template('delete_edit.html', title='Delete or Edit', form=form, posts=Posts.find())
     except Exception as error:
         logger.error("Oh no! somthing went worng with the delete_edit page, the error is: " + str(error))
 
@@ -199,16 +200,13 @@ def delete_edit():
 #################################delete posts page######################################
 ########################################################################################
 @app.route('/api/delete/<name>', methods=['DELETE'])
-@app.route('/delete/<name>', methods=['GET' , 'DELETE'])
+@app.route('/delete/<name>')#, methods=['GET', 'POST']
 def delete(name):
     try:
-        if request.method == 'DELETE':
-            logger.info('delete: posts page')
-            Posts.delete_many({ "body" : name})
-            print('instances that contains ',name,' were deleted' )
-            return redirect(url_for('delete_edit'))
-        else:
-            return redirect(url_for('delete_edit'))       
+        logger.info('delete: posts page')
+        Posts.delete_many({ "body" : name})
+        print('instances that contains ',name,' were deleted' )
+        return redirect(url_for('delete_edit'))     
     except Exception as error:
         logger.error("Oh no! somthing went worng with the deletion, the error is: " + str(error))
 
@@ -220,20 +218,17 @@ def delete(name):
 #################################edit posts page########################################
 ########################################################################################
 @app.route('/api/update/<name>/<replacment>', methods=['PUT'])
-@app.route('/update/<name>/<replacment>', methods=['GET' , 'PUT'])
+@app.route('/update/<name>/<replacment>')#, methods=['GET', 'POST']
 def update(name,replacment):
     try:
-        if request.method == 'PUT':
-            logger.info('edit: posts page')
-            Posts.update_many(
-                {"body": name },
-                    {
-                        "$set": { "body" : replacment }
-                    }
-            )
-            print('instances that contains ',name,' were updated to ',replacment )
-            return redirect(url_for('delete_edit'))
-        else:
-            return redirect(url_for('delete_edit'))
+        logger.info('edit: posts page')
+        Posts.update_many(
+            {"body": name },
+                {
+                    "$set": { "body" : replacment }
+                }
+        )
+        print('instances that contains ',name,' were updated to ',replacment )
+        return redirect(url_for('delete_edit'))
     except Exception as error:
         logger.error("Oh no! somthing went worng with the edit page, the error is: " + str(error))
