@@ -15,7 +15,6 @@ if [[ resp -eq 1 ]]; then
 else
 	exit 1
 fi
-#given the app url the loging is desplayd, the first page is the login page without entering to the system there is no way to get to the homepage
 resp=$(curl -X POST http://app:5000/index -Is | grep -c "HTTP/1.1 200")
 if [[ resp -eq 1 ]]; then	
 	echo "pass logginpage from /index with POST"
