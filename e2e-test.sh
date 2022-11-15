@@ -43,12 +43,12 @@ else
 	exit 1
 fi
 
-resp=$(curl -X POST http://app:5000/api/login/firstname-lastname-username-password -Is | grep -c "HTTP/1.1 302")
-if [[ resp -eq 1 ]]; then
-	echo "pass logginpage from /api/login with POST"
-else
-	exit 1
-fi
+# resp=$(curl -X POST http://app:5000/api/login/firstname-lastname-username-password -Is | grep -c "HTTP/1.1 302")
+# if [[ resp -eq 1 ]]; then
+# 	echo "pass logginpage from /api/login with POST"
+# else
+# 	exit 1
+# fi
 
 resp=$(curl http://app:5000/index/liz -Is | grep -c "HTTP/1.1 200")
 if [[ resp -eq 1 ]]; then
