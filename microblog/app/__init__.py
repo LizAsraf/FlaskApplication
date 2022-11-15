@@ -1,7 +1,7 @@
 from flask import Flask
 from config import Config
 from pymongo import MongoClient
-from utils import setting_statsd, StatsdMiddleware
+from app.utils import setting_statsd, StatsdMiddleware
 import os
 
 app = Flask(__name__)
