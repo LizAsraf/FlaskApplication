@@ -22,8 +22,4 @@ Users = db['Users']
 Posts = db['Posts']
 
 
-app = Flask(__name__)
-
-
-
 from app import routes
