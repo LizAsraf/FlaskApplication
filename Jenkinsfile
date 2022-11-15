@@ -62,7 +62,7 @@ pipeline {
             steps {
                script{
                     L_TAG = sh (
-                        script: "git tag -l  | tail -n 1 | cut -d 'v' -f2",
+                        script: "git tag -l  | sort -V | tail -n 1 | cut -d 'v' -f2",
                         returnStdout: true
                         ).trim()   
                     echo "$L_TAG"
