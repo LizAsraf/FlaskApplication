@@ -33,12 +33,6 @@ logger.addHandler(console_handler)
 ########################################################################################
 # logging.warning('And this, too')
 
-metrics.register_default(
-    metrics.counter(
-        'by_path_counter', 'Request count by request paths',
-        labels={'path': lambda: request.path}
-    )
-)
 
 ########################################################################################
 ############################need login page#############################################
@@ -239,3 +233,12 @@ def update(name,replacment):
         return redirect(url_for('delete_edit'))
     except Exception as error:
         logger.error("Oh no! somthing went worng with the edit page, the error is: " + str(error))
+
+
+
+metrics.register_default(
+    metrics.counter(
+        'by_path_counter', 'Request count by request paths',
+        labels={'path': lambda: request.path}
+    )
+)
