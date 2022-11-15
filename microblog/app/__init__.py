@@ -2,13 +2,13 @@ from flask import Flask
 from config import Config
 from pymongo import MongoClient
 # from app.utils import setting_statsd, StatsdMiddleware
+from prometheus_flask_exporter import PrometheusMetrics
 import os
 
 app = Flask(__name__)
-# # Setting statsd host and port
-# setting_statsd()
-# # Add statsd middleware to track each request and send statsd UDP request
-# app.wsgi_app = StatsdMiddleware(app.wsgi_app, "flask-monitoring")
+metrics = PrometheusMetrics(app)
+# static information as metric
+metrics.info('app_info', 'Application info', version='1.0.3')
 
 
 app.config.from_object(Config)

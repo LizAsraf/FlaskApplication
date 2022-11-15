@@ -17,3 +17,4 @@ python-dotenv==0.21.0
 Werkzeug==2.2.2
 WTForms==3.0.1
 # datadog==0.44.0
+prometheus-flask-exporter==0.21.0

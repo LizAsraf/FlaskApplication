@@ -9,6 +9,7 @@ from app.forms import PostsForm
 from app.forms import EditDeleteForm
 from app import Users
 from app import Posts
+from app import metrics
 import logging
 # import mylib
 ########################################################################################
@@ -32,6 +33,12 @@ logger.addHandler(console_handler)
 ########################################################################################
 # logging.warning('And this, too')
 
+metrics.register_default(
+    metrics.counter(
+        'by_path_counter', 'Request count by request paths',
+        labels={'path': lambda: request.path}
+    )
+)
 
 ########################################################################################
 ############################need login page#############################################
