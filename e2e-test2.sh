@@ -1,11 +1,4 @@
 #! /bin/bash
-resp=$(curl -X POST http://app:5000/api/login/firstname-lastname-username-password -Is | grep -c "HTTP/1.1 302")
-if [[ resp -eq 1 ]]; then
-	echo "pass logginpage from /api/login with POST"
-else
-	exit 1
-fi
-
 resp=$(curl http://app:5000/index/liz -Is | grep -c "HTTP/1.1 200")
 if [[ resp -eq 1 ]]; then
 	echo "pass welcome page"
@@ -51,13 +44,6 @@ fi
 resp=$(curl -X POST http://app:5000/delete_edit -Is | grep -c "HTTP/1.1 200")
 if [[ resp -eq 1 ]]; then
 	echo "pass delete_edit new page with POST"
-else
-	exit 1
-fi
-
-resp=$(curl -X DELETE http://app:5000/api/delete/name -Is | grep -c "HTTP/1.1 302")
-if [[ resp -eq 1 ]]; then
-	echo "pass api delete name with DELETE"
 else
 	exit 1
 fi
