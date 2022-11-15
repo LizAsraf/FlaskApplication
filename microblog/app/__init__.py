@@ -1,14 +1,14 @@
 from flask import Flask
 from config import Config
 from pymongo import MongoClient
-from app.utils import setting_statsd, StatsdMiddleware
+# from app.utils import setting_statsd, StatsdMiddleware
 import os
 
 app = Flask(__name__)
-# Setting statsd host and port
-setting_statsd()
-# Add statsd middleware to track each request and send statsd UDP request
-app.wsgi_app = StatsdMiddleware(app.wsgi_app, "flask-monitoring")
+# # Setting statsd host and port
+# setting_statsd()
+# # Add statsd middleware to track each request and send statsd UDP request
+# app.wsgi_app = StatsdMiddleware(app.wsgi_app, "flask-monitoring")
 
 
 app.config.from_object(Config)
