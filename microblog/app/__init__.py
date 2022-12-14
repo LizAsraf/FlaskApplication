@@ -1,7 +1,6 @@
 from flask import Flask
 from config import Config
 from pymongo import MongoClient
-# from app.utils import setting_statsd, StatsdMiddleware
 from prometheus_flask_exporter import PrometheusMetrics
 import os
 
